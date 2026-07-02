@@ -1,12 +1,14 @@
 # HOWTO - Portable Dual-OS AI Coding Workspace
 
-This document gives step-by-step instructions for using and maintaining the Linux + macOS QEMU environment on removable media.
+This document gives step-by-step instructions for using and maintaining
+the Linux + macOS QEMU environment on removable media.
 
 ## 1. First Time Setup (Host)
 
 1. Insert the microSD (via WAVLINK reader).
 2. Ensure `F:\VMs\` and `F:\Scripts\` exist with the images and launchers.
-3. (Recommended) Copy `OpenCore.qcow2` and `C:\Start-macOSVM.ps1` to a fast internal drive if F: space or speed is an issue.
+3. (Recommended) Copy `OpenCore.qcow2` and `C:Start-macOSVM.ps1` to a fast internal drive
+   if F: space or speed is an issue.
 4. Install QEMU if not already present.
 
 ## 2. Launching the VMs

@@ -128,11 +128,14 @@ Edit the scripts if you need more RAM, different port forwards, or display optio
 
 ## Troubleshooting
 
-- **F: very slow or I/O errors** — common with microSD + USB reader. Do heavy work on C: then copy final artifacts to F:.
-- **No space on microSD** — the 80 GiB macOS image fills a lot of the drive. Keep OpenCore.qcow2 on fast internal storage if needed.
+- **F: very slow or I/O errors** — common with microSD + USB reader.
+  Do heavy work on C: then copy final artifacts to F:.
+- **No space on microSD** — the 80 GiB macOS image fills a lot of the drive.
+  Keep OpenCore.qcow2 on fast internal storage if needed.
 - **macOS does not boot** — verify the OpenCore.qcow2 contains the EFI folder (it does).
   Check that you are using the matching edk2 firmware files.
-- **Permission issues during build** — some steps (diskpart, VHD) require elevation. The final images were produced successfully.
+- **Permission issues during build** — some steps (diskpart, VHD) require elevation.
+  The final images were produced successfully.
 
 ## Future Improvements (Ideas)
 

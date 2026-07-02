@@ -91,7 +91,8 @@ The launch scripts contain the working set. Key ones:
 ## 6. When Things Go Wrong
 
 - **VM won't start** — check paths in the .ps1 script and that QEMU is in PATH or use full path.
-- **macOS kernel panic / no boot** — wrong OpenCore config or missing drivers. Rebuild `OpenCore.qcow2` from the EFI tree.
+- **macOS kernel panic / no boot** — wrong OpenCore config or missing drivers.
+  Rebuild `OpenCore.qcow2` from the EFI tree.
 - **No shared folder** — check 9p configuration in the Linux launcher and mounts inside the guest.
 - **Slow performance** — microSD is the bottleneck.
   Consider keeping the VMs on internal SSD and only sync the Workspace folder.

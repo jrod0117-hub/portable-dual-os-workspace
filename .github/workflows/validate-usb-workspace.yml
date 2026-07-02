@@ -1,0 +1,63 @@
+name: Validate USB Coding Workspace
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # No actions/setup-powershell needed — GitHub Windows runners include pwsh by default
+
+      - name: Install PSScriptAnalyzer
+        run: |
+          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser -AllowClobber
+        shell: pwsh
+
+      - name: Lint all PowerShell scripts
+        run: |
+          if (Test-Path ./Scripts) {
+            Invoke-ScriptAnalyzer -Path ./Scripts -Recurse -Severity @('Error','Warning') -EnableExit
+          } else {
+            Write-Host "No ./Scripts folder found - skipping PowerShell lint"
+          }
+        shell: pwsh
+
+      - name: Lint Markdown files
+        uses: DavidAnson/markdownlint-cli2-action@v16
+        with:
+          globs: |
+            **/*.md
+            !node_modules/**
+
+      - name: Verify folder structure exists
+        run: |
+          $required = @(
+            "VMs/Linux-Coding",
+            "VMs/macOS-Coding",
+            "Workspace",
+            "Scripts"
+          )
+          $missing = @()
+          foreach ($folder in $required) {
+            if (-not (Test-Path $folder)) {
+              $missing += $folder
+            }
+          }
+          if ($missing.Count -gt 0) {
+            Write-Error "Missing required folders: $($missing -join ', ')"
+            exit 1
+          }
+          Write-Host "✅ All required folders present."
+        shell: pwsh
+
+      - name: Summary
+        run: |
+          Write-Host "✅ USB Coding Workspace validation passed!"
+        shell: pwsh

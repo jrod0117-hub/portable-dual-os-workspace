@@ -13,17 +13,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
       - name: Install PSScriptAnalyzer
         run: |
-          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser -AllowClobber
+          Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser -AllowClobber -ErrorAction Stop
+          Write-Host "PSScriptAnalyzer installed successfully"
         shell: pwsh
 
       - name: Lint all PowerShell scripts
         run: |
           if (Test-Path ./Scripts) {
-            $results = Invoke-ScriptAnalyzer -Path ./Scripts -Recurse -Severity @('Error','Warning')
+            $results = Invoke-ScriptAnalyzer -Path ./Scripts -Recurse -Severity @('Error','Warning') -ErrorAction Stop
             if ($results) {
               $results | Format-Table -AutoSize
+              Write-Error "PSScriptAnalyzer found issues"
               exit 1
             }
             Write-Host "✅ No lint errors or warnings in Scripts/"
@@ -33,12 +40,15 @@ jobs:
         shell: pwsh
 
       - name: Lint Markdown files
-        uses: DavidAnson/markdownlint-cli2-action@v16
-        with:
-          globs: |
-            **/*.md
-            !node_modules/**
-          config: .markdownlint.json
+        run: |
+          npm install -g markdownlint-cli2
+          markdownlint-cli2 "**/*.md" "!node_modules/**" --config .markdownlint.json
+          if ($LASTEXITCODE -ne 0) {
+            Write-Error "Markdown lint failed with code $LASTEXITCODE"
+            exit $LASTEXITCODE
+          }
+          Write-Host "✅ Markdown lint passed"
+        shell: pwsh
 
       - name: Verify key structure (non-blocking for docs repo)
         run: |

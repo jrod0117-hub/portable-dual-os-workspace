@@ -2,7 +2,8 @@
 
 Portable QEMU-based environment for AI agents to develop in **Linux** and **macOS** (with Xcode) using a single microSD/USB drive.
 
-The workspace lives on a microSD card (via WAVLINK USB 3.0/Type-C reader) so the same code base is accessible from the host Windows machine and both VMs via 9p shares.
+The workspace lives on a microSD card (via WAVLINK USB 3.0/Type-C reader)
+so the same code base is accessible from the host Windows machine and both VMs via 9p shares.
 
 ## Goals
 
@@ -32,7 +33,7 @@ The workspace lives on a microSD card (via WAVLINK USB 3.0/Type-C reader) so the
 ```powershell
 # From F: (preferred when drive is mounted)
 F:\Scripts\Start-LinuxVM.ps1
-```
+```text
 
 After boot:
 
@@ -47,9 +48,10 @@ C:\Start-macOSVM.ps1
 
 # Alternative if you copied everything to F:
 F:\Scripts\Start-macOSVM.ps1
-```
+```text
 
-The VM boots via OpenCore → should reach the picker or directly into the macOS installer/recovery environment. From there you can complete installation or boot into the installed system for Xcode development.
+The VM boots via OpenCore → should reach the picker or directly into the macOS installer/recovery environment.
+From there you can complete installation or boot into the installed system for Xcode development.
 
 ## Shared Workspace
 
@@ -63,7 +65,7 @@ This is the bridge between environments.
 
 ## Project Layout (on the drive)
 
-```
+```text
 F:\
 ├── VMs\
 │   ├── Linux-Coding\
@@ -76,7 +78,7 @@ F:\
 │   └── Start-macOSVM.ps1
 ├── Workspace\                      # <--- put all your code here
 └── (optional) README.md / docs
-```
+```text
 
 On the build machine (C:):
 
@@ -84,17 +86,18 @@ On the build machine (C:):
 
 ## How the Images Were Built (Reproducibility)
 
-**Linux**
+### Linux
 
 - Standard QEMU + cloud-init setup with 9p share.
 
-**macOS**
+### macOS
 
 1. Located `OpenCore-1.0.7-RELEASE.zip` in your Downloads folder.
 2. Extracted with 7-Zip.
 3. Created 256 MiB raw image.
 4. Built FAT32 filesystem + copied `X64/EFI` tree (including `OpenCore.efi`, Drivers, Tools, BOOTx64.efi).
-5. Created minimal `config.plist` from OpenCore sample + patches for QEMU (product name, Board ID from macrecovery, SecureBoot disabled).
+5. Created minimal `config.plist` from OpenCore sample + patches for QEMU
+   (product name, Board ID from macrecovery, SecureBoot disabled).
 6. Converted to qcow2.
 7. 80 GiB macOS disk created earlier from recovery + InstallAssistant.pkg.
 
@@ -126,7 +129,8 @@ Edit the scripts if you need more RAM, different port forwards, or display optio
 
 - **F: very slow or I/O errors** — common with microSD + USB reader. Do heavy work on C: then copy final artifacts to F:.
 - **No space on microSD** — the 80 GiB macOS image fills a lot of the drive. Keep OpenCore.qcow2 on fast internal storage if needed.
-- **macOS doesn't boot** — verify the OpenCore.qcow2 contains the EFI folder (it does). Check that you are using the matching edk2 firmware files.
+- **macOS does not boot** — verify the OpenCore.qcow2 contains the EFI folder (it does).
+  Check that you are using the matching edk2 firmware files.
 - **Permission issues during build** — some steps (diskpart, VHD) require elevation. The final images were produced successfully.
 
 ## Future Improvements (Ideas)

@@ -91,7 +91,8 @@ The launch scripts contain the working set. Key ones:
 - **VM won't start** — check paths in the .ps1 script and that QEMU is in PATH or use full path.
 - **macOS kernel panic / no boot** — wrong OpenCore config or missing drivers. Rebuild `OpenCore.qcow2` from the EFI tree.
 - **No shared folder** — check 9p configuration in the Linux launcher and mounts inside the guest.
-- **Slow performance** — microSD is the bottleneck. Consider keeping the VMs on internal SSD and only sync the Workspace folder.
+- **Slow performance** — microSD is the bottleneck.
+  Consider keeping the VMs on internal SSD and only sync the Workspace folder.
 - **"No space left"** — the 80G macOS image is large. Delete old snapshots or move OpenCore.qcow2 off the card.
 
 ## 7. Rebuilding from Scratch (Advanced)
@@ -121,4 +122,5 @@ Best practice:
 
 ---
 
-This environment lets the AI do real development in both operating systems without you having to manage the VMs yourself. Just point it at a task and the correct environment.
+This environment lets the AI do real development in both operating systems
+without you having to manage the VMs yourself. Just point it at a task and the correct environment.

@@ -1,6 +1,7 @@
 # Portable Dual-OS AI Coding Workspace
 
-Portable QEMU-based environment for AI agents to develop in **Linux** and **macOS** (with Xcode) using a single microSD/USB drive.
+Portable QEMU-based environment for AI agents to develop in **Linux** and **macOS** (with Xcode)
+using a single microSD/USB drive.
 
 The workspace lives on a microSD card (via WAVLINK USB 3.0/Type-C reader)
 so the same code base is accessible from the host Windows machine and both VMs via 9p shares.

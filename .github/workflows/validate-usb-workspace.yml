@@ -13,8 +13,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # No actions/setup-powershell needed — GitHub Windows runners include pwsh by default
-
       - name: Install PSScriptAnalyzer
         run: |
           Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser -AllowClobber
@@ -40,6 +38,7 @@ jobs:
           globs: |
             **/*.md
             !node_modules/**
+          config: .markdownlint.json
 
       - name: Verify key structure (non-blocking for docs repo)
         run: |

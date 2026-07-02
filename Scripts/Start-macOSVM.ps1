@@ -7,19 +7,19 @@ $OC_IMAGE = "C:\macos-work\OpenCore.qcow2"
 $MACOS_DISK = "F:\VMs\macOS-Coding\macos-coding.qcow2"
 
 if (-not (Test-Path $QEMU)) {
-    Write-Host "QEMU not found at $QEMU" -ForegroundColor Red
+    Write-Error "QEMU not found at $QEMU"
     exit 1
 }
 if (-not (Test-Path $OC_IMAGE)) {
-    Write-Host "OpenCore image not found at $OC_IMAGE" -ForegroundColor Red
+    Write-Error "OpenCore image not found at $OC_IMAGE"
     exit 1
 }
 if (-not (Test-Path $MACOS_DISK)) {
-    Write-Host "macOS disk not found at $MACOS_DISK" -ForegroundColor Red
+    Write-Error "macOS disk not found at $MACOS_DISK"
     exit 1
 }
 
-$args = @(
+$QemuArgs = @(
     "-m", "8192",
     "-cpu", "Penryn,vendor=GenuineIntel,+sse3,+sse4.2,+aes,+avx,+avx2,+xsave,+xsaveopt",
     "-machine", "q35",
@@ -37,7 +37,7 @@ $args = @(
     "-vga", "std"
 )
 
-Write-Host "Starting macOS VM..." -ForegroundColor Green
-& $QEMU @args
+Write-Output "Starting macOS VM..."
+& $QEMU @QemuArgs
 
-Write-Host "VM exited." -ForegroundColor Yellow
+Write-Output "VM exited."

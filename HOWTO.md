@@ -12,6 +12,7 @@ This document gives step-by-step instructions for using and maintaining the Linu
 ## 2. Launching the VMs
 
 ### Linux VM
+
 ```powershell
 F:\Scripts\Start-LinuxVM.ps1
 ```
@@ -21,10 +22,12 @@ F:\Scripts\Start-LinuxVM.ps1
 - Workspace should be available (check mount points with `mount | grep 9p`).
 
 Common tasks inside Linux:
+
 - `cd /path/to/workspace`
 - Edit, build, test as normal.
 
 ### macOS VM
+
 ```powershell
 C:\Start-macOSVM.ps1     # or the copy on F:
 ```
@@ -45,6 +48,7 @@ Tell the agent something like:
 - "Test the Linux build and the macOS build, keep everything in the shared Workspace"
 
 The agent will:
+
 - Launch the appropriate VM
 - Work inside it (using the terminal/filesystem of that VM)
 - Leave results in the shared folder
@@ -52,6 +56,7 @@ The agent will:
 ## 4. Maintaining the Images
 
 ### Updating OpenCore
+
 1. Download new OpenCore release.
 2. Extract to a temp folder.
 3. Mount or rebuild `OpenCore.qcow2` (use the Python FAT32 builder or mount the image on host).
@@ -59,19 +64,23 @@ The agent will:
 5. Replace the file used by the launcher.
 
 ### Resizing the macOS Disk
+
 Use `qemu-img resize` on the host (careful — only enlarge, then use disk utility inside macOS to grow the partition).
 
 Example:
+
 ```bash
 qemu-img resize macos-coding.qcow2 +20G
 ```
 
 ### Backing Up
+
 Simply copy the `.qcow2` files from the drive. They are portable.
 
 ## 5. Common QEMU Flags (for reference)
 
 The launch scripts contain the working set. Key ones:
+
 - `-m 8192` (or more)
 - `-cpu Penryn,...` (required for macOS)
 - pflash drives for firmware + OpenCore.qcow2 as boot drive
@@ -88,6 +97,7 @@ The launch scripts contain the working set. Key ones:
 ## 7. Rebuilding from Scratch (Advanced)
 
 See the build scripts that were used:
+
 - `build_fat32.py` (in C:\macos-work) — creates the FAT32 OpenCore image
 - macrecovery.py + 7z + qemu-img for the macOS disk
 - PowerShell / bash one-liners for launchers
@@ -97,6 +107,7 @@ All steps were executed directly in this session.
 ## 8. Sending Code Between Environments
 
 Best practice:
+
 - Keep all source in `F:\Workspace\`
 - Use git inside the VMs (or on host)
 - The agent can switch VMs as needed for the task

@@ -5,6 +5,7 @@ Portable QEMU-based environment for AI agents to develop in **Linux** and **macO
 The workspace lives on a microSD card (via WAVLINK USB 3.0/Type-C reader) so the same code base is accessible from the host Windows machine and both VMs via 9p shares.
 
 ## Goals
+
 - AI agents can code, build, test, and debug in real Linux and real macOS/Xcode.
 - Zero phone involvement for the main experience (phone only as silent bridge if needed).
 - Fully portable on removable media.
@@ -27,16 +28,19 @@ The workspace lives on a microSD card (via WAVLINK USB 3.0/Type-C reader) so the
 ## Quick Start
 
 ### Launch Linux VM
+
 ```powershell
 # From F: (preferred when drive is mounted)
 F:\Scripts\Start-LinuxVM.ps1
 ```
 
 After boot:
+
 - SSH: `ssh user@localhost -p 2222` (or the user configured during setup)
 - Workspace is mounted inside the VM (usually at `/mnt/9p` or similar — see script).
 
 ### Launch macOS VM
+
 ```powershell
 # Recommended (OpenCore.qcow2 lives on C: for speed/space reasons)
 C:\Start-macOSVM.ps1
@@ -48,6 +52,7 @@ F:\Scripts\Start-macOSVM.ps1
 The VM boots via OpenCore → should reach the picker or directly into the macOS installer/recovery environment. From there you can complete installation or boot into the installed system for Xcode development.
 
 ## Shared Workspace
+
 All code lives in `F:\Workspace` (on the microSD).
 
 - Visible on Windows host
@@ -74,14 +79,17 @@ F:\
 ```
 
 On the build machine (C:):
+
 - `C:\macos-work\` — build artifacts, OpenCore source, launchers, this README
 
 ## How the Images Were Built (Reproducibility)
 
 **Linux**
+
 - Standard QEMU + cloud-init setup with 9p share.
 
 **macOS**
+
 1. Located `OpenCore-1.0.7-RELEASE.zip` in your Downloads folder.
 2. Extracted with 7-Zip.
 3. Created 256 MiB raw image.
@@ -98,9 +106,6 @@ This environment exists so you can tell the AI:
 
 - "Work on this in Linux" → agent launches Linux VM and works inside it.
 - "Build/test this in Xcode" → agent launches macOS VM and develops inside it.
-- Mixed workflows using the shared `Workspace` folder.
-
-The agent has full terminal + file access inside the chosen VM.
 
 ## Launchers
 
